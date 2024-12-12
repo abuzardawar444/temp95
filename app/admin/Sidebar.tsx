@@ -1,17 +1,17 @@
-'use client'
-import { adminLinks } from '@/utils/links'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Button } from '@/components/ui/button'
+"use client";
+import { adminLinks } from "@/utils/links";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 function Sidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <aside>
       {adminLinks.map((link) => {
-        const isActivePage = pathname === link.href
-        const variant = isActivePage ? 'default' : 'ghost'
+        const isActivePage = pathname === link.href;
+        const variant = isActivePage ? "default" : "ghost";
         return (
           <Button
             asChild
@@ -22,9 +22,9 @@ function Sidebar() {
               {link.label}
             </Link>
           </Button>
-        )
+        );
       })}
     </aside>
-  )
+  );
 }
-export default Sidebar
+export default Sidebar;
