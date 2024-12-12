@@ -1,8 +1,8 @@
-import EmptyList from '@/components/global/EmptyList'
-import { deleteProductAction, fetchAdminProducts } from '@/utils/actions'
-import Link from 'next/link'
+import EmptyList from "@/components/global/EmptyList";
+import { deleteProductAction, fetchAdminProducts } from "@/utils/actions";
+import Link from "next/link";
 
-import { formatCurrency } from '@/utils/format'
+import { formatCurrency } from "@/utils/format";
 import {
   Table,
   TableBody,
@@ -11,13 +11,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { IconButton } from '@/components/form/Buttons'
-import FormContainer from '@/components/form/FormContainer'
+} from "@/components/ui/table";
+import { IconButton } from "@/components/form/Buttons";
+import FormContainer from "@/components/form/FormContainer";
 
-async function ItemsPage() {
-  const items = await fetchAdminProducts()
-  if (items.length === 0) return <EmptyList />
+type Item = {
+  id: string;
+  name: string;
+  company: string;
+  price: number;
+};
+
+async function AdminProductsPage() {
+  const items = await fetchAdminProducts();
+  if (items.length === 0) return <EmptyList />;
+
   return (
     <section>
       <Table>
@@ -33,8 +41,8 @@ async function ItemsPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((item) => {
-            const { id: productId, name, company, price } = item
+          {items.map((item: Item) => {
+            const { id: productId, name, company, price } = item;
             return (
               <TableRow key={productId}>
                 <TableCell>
@@ -49,26 +57,26 @@ async function ItemsPage() {
                 <TableCell>{formatCurrency(price)}</TableCell>
                 <TableCell className="flex items-center gap-x-2">
                   <Link href={`/admin/products/${productId}/edit`}>
-                    <IconButton actionType="edit"></IconButton>
+                    <IconButton actionType="edit" />
                   </Link>
                   <DeleteProduct productId={productId} />
                 </TableCell>
               </TableRow>
-            )
+            );
           })}
         </TableBody>
       </Table>
     </section>
-  )
+  );
 }
 
 function DeleteProduct({ productId }: { productId: string }) {
-  const deleteProduct = deleteProductAction.bind(null, { productId })
+  const deleteProduct = deleteProductAction.bind(null, { productId });
   return (
     <FormContainer action={deleteProduct}>
       <IconButton actionType="delete" />
     </FormContainer>
-  )
+  );
 }
 
-export default ItemsPage
+export default AdminProductsPage;
